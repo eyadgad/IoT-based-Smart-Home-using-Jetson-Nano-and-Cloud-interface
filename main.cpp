@@ -139,13 +139,13 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
 }
 
 void writeada(CURL *curl, char key[20], char value[10]) { // write to adafruit
-    char url[100]="https://io.adafruit.com/api/v2/eyadgad/feeds/"; // url
+    char url[100]="https://io.adafruit.com/api/v2/eyadgad/feeds/"; // REPLACE YOUR API
     strcat(url,key); // concatenate url and key
     char val[20] = "value="; // value
     strcat(val,value); // concatenate value and value
     struct curl_slist *headers = NULL; // headers
     string readBuffer; // read buffer
-    headers = curl_slist_append(headers, "X-AIO-Key: aio_LIyb46hksA3M0pDkXfDAto2myMtG"); // append headers
+    headers = curl_slist_append(headers, "X-AIO-Key: aio_LIyb46hksA3M0pDkXfDAto2myMtG"); // REPLACE YOUR API
     usleep(200000); // sleep
     curl_easy_setopt(curl, CURLOPT_URL, url); // set url
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers); // set headers      
@@ -159,7 +159,7 @@ void writeada(CURL *curl, char key[20], char value[10]) { // write to adafruit
 int readada(CURL *curl, char key[20]) { // read from adafruit
     usleep(200000); // sleep
     string str ;   // string to read from adafruit
-    char url[100]="https://io.adafruit.com/api/v2/eyadgad/feeds/"; // url for adafruit
+    char url[100]="https://io.adafruit.com/api/v2/eyadgad/feeds/"; // REPLACE YOUR API
     curl_easy_setopt(curl, CURLOPT_URL, strcat(url, key)); // set url
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L); // set follow location to 1
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback); // set write callback
@@ -170,7 +170,7 @@ int readada(CURL *curl, char key[20]) { // read from adafruit
 }
 
 string blynkread(CURL *curl, char key[4]) {
-    char url[100]="https://blynk.cloud/external/api/get?token=aah-HzqSQJepghpcSP4rVIwlWvu07kH0&v";
+    char url[100]="https://blynk.cloud/external/api/get?token=aah-HzqSQJepghpcSP4rVIwlWvu07kH0&v";// REPLACE YOUR API
     strcat(url,key);
     string out;
     usleep(100000); 
@@ -183,7 +183,7 @@ string blynkread(CURL *curl, char key[4]) {
 }
 
 void blynkwrite(CURL *curl, char key[4], char value[4]) {
-    char url[100]="https://blynk.cloud/external/api/update?token=aah-HzqSQJepghpcSP4rVIwlWvu07kH0&v";
+    char url[100]="https://blynk.cloud/external/api/update?token=aah-HzqSQJepghpcSP4rVIwlWvu07kH0&v";// REPLACE YOUR API
     strcat(url,key);
     strcat(url,"=");
     strcat(url,value);
@@ -205,11 +205,11 @@ int getchar(string str) { // get the value from the string
 }
 
 void sendemail(){ // send email
-    string sender = "bratsproject@gmail.com"; // sender email
-    string receiver = "eyad.gad@outlook.com"; // receiver email
+    string sender = "REPLACE_YOUR_SENDER"; // sender email
+    string receiver = "REPLACE_YOUR_RECEIVER"; // receiver email
     string subject = "Smart Home"; // subject
-    string message = "Hello Eyad\nThis is an alert from your smart home system. Someone entered the passcode to your home. Please check your home security system."; // message
-    string gapp ="szpyxkryfsmfzref";  // google app password
+    string message = "Hello\nThis is an alert from your smart home system. Someone entered the passcode to your home. Please check your home security system."; // message
+    string gapp ="REPLACE_YOUR_GAPP_API";  // google app password
     string ignoreoutput = " > /dev/null 2>&1"; // ignore output
     string command = "curl --url 'smtps://smtp.gmail.com:465' --ssl-reqd --mail-from '" + sender + "' --mail-rcpt '" + receiver + "' --upload-file - --user '" + sender + ":" + gapp + "' " + ignoreoutput; // command     
     FILE *mail = popen(command.c_str(), "w"); // open command
